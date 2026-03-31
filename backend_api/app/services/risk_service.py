@@ -1,9 +1,9 @@
 import json
 import numpy as np
 import os
-from app.core.math_models import RegresionLogisticaManual
-from app.core.preprocessing import PreprocesadorManual
-from app.services.motor_reglas import motor_reglas  # Importamos tu motor de 20 reglas
+from app.core.math_models import RegresionLogistica
+from app.core.preprocessing import Preprocesador
+from app.services.motor_reglas import motor_reglas  
 from app.core.config import settings
 
 class RiskService:
@@ -14,7 +14,7 @@ class RiskService:
 
     def __init__(self):
         self.modelo = None
-        self.preprocesador = PreprocesadorManual()
+        self.preprocesador = Preprocesador()
         self.feature_order = []
         self._cargar_configuracion()
 
@@ -33,7 +33,7 @@ class RiskService:
         self.preprocesador.load_params(config["scaler_params"])
         model_params = config["model_params"]
         
-        self.modelo = RegresionLogisticaManual(
+        self.modelo = RegresionLogistica(
             len(model_params["W"]), 
             len(model_params["W"][0])
         )
