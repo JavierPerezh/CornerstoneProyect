@@ -53,36 +53,36 @@ El proyecto está organizado en un repositorio de GitHub con la siguiente estruc
         - `config.py` - Variables de entorno
         - `database.py` - Conexión a PostgreSQL
         - `security.py` - Funciones de autenticación y API keys
+        - `math_models.py` - Modelo regresión logística
+        - `preprocessing.py` - Codificación one hot manual
       - **`services/`**
         - `transcripcion.py` - Whisper (audio a texto)
         - `extraccion_llm.py` - Extracción de datos con LLM (Groq)
         - `motor_reglas.py` - Motor determinista de reglas clínicas
-        - `regresion_logistica.py` - Modelo de regresión logística para estimación de riesgo
+        - `risk_service` - Analizador entre regresión y reglas
         - `respuesta_empatica.py` - Generación de respuesta cálida con LLM (Groq)
         - `tts.py` - Text‑to‑Speech (Google Cloud / Coqui)
         - `database.py` - Operaciones con BD (guardar, consultar)
         - `cleanup.py` - Limpieza automática de archivos de audio temporales
         - `colas.py` - Sistema de colas para procesamiento asíncrono (Celery o background tasks)
       - **`models/`** (Modelos de machine learning)
-        - **`ml/`**
-          - `modelo_regresion.pkl` - Modelo entrenado de regresión logística
-          - `scaler.pkl` - Escalador para normalizar variables
-          - `feature_columns.pkl` - Nombres de las características utilizadas
+        - `schema`
+        - **`weights`**
+          - `Parametros Finales` - Modelo de regresión ya entrenado 
       - **`training/`**
-        - `entrenar_modelo.py` - Script para entrenar el modelo con datos históricos
+        - `gradient_decent.py` - Script para entrenar el modelo con datos históricos
         - `generar_datos_sinteticos.py` - Generación de datos para entrenamiento
-        - `validacion_modelo.py` - Validación cruzada y métricas de rendimiento
     - **`tests/`** - Pruebas unitarias e integración
-      - `test_motor_reglas.py`
-      - `test_regresion_logistica.py`
-      - `test_respuesta_empatica.py`
-      - `test_tts.py`
+      - `test_math.py`
+      - `test_preprocessing.py`
+      - `test_ai_services.py`
       - `test_endpoints.py`
     - **`static/audio/`** - Archivos de audio generados (TTS)
     - **`docs/`**
       - `reglas_clinicas.md` - Documentación de las reglas médicas
       - `modelo_riesgo.md` - Documentación del modelo de regresión logística
       - `contrato_api.md` - Contrato entre frontend y backend
+    - `run_tests.py`
     - `.env.example` - Plantilla de variables de entorno
     - `requirements.txt` - Dependencias Python
     - `README.md`
