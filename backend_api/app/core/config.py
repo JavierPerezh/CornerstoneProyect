@@ -13,7 +13,7 @@ class Settings:
     Configuracion centralizada de la aplicacion.
     Carga variables de entorno y define rutas estaticas del sistema.
     """
-    PROJECT_NAME: str = "Cornerstone Proyecto - MACC"
+    PROJECT_NAME: str = "Cornerstone Proyect"
     VERSION: str = "1.0.0"
     
     # Configuracion de API Externa

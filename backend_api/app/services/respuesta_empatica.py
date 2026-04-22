@@ -1,5 +1,5 @@
 from groq import Groq
-from app.core.config import settings
+from app.core.config import Settings
 
 class RespuestaEmpaticaService:
     """
@@ -10,7 +10,7 @@ class RespuestaEmpaticaService:
 
     def __init__(self):
         # Inicializacion del cliente con la API Key centralizada
-        self.client = Groq(api_key=settings.GROQ_API_KEY)
+        self.client = Groq(api_key=Settings.GROQ_API_KEY)
         # Seleccion de un modelo de ultima generacion para mayor precision linguistica
         self.model = "llama-3.3-70b-versatile" 
 
