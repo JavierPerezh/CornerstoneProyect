@@ -1,0 +1,204 @@
+.history-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #fdf7f0;
+  font-family: 'Georgia', serif;
+}
+
+.history-main {
+  flex: 1;
+  padding: 2.5rem;
+  max-width: 720px;
+}
+
+.history-main h1 {
+  font-size: 24px;
+  color: #3d2b1f;
+  font-weight: normal;
+  margin: 0 0 4px;
+}
+
+.history-sub {
+  color: #a07060;
+  font-size: 14px;
+  margin: 0 0 2rem;
+}
+
+.history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: 1px solid #f0e6d8;
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+}
+
+.history-date {
+  font-size: 12px;
+  color: #b0907a;
+  margin: 0 0 4px;
+}
+
+.history-summary {
+  font-size: 14px;
+  color: #3d2b1f;
+  margin: 0;
+}
+
+.history-badge {
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+
+.badge--verde    { background: #eaf3de; color: #3b6d11; }
+.badge--amarillo { background: #faeeda; color: #854f0b; }
+.badge--rojo     { background: #fcebeb; color: #a32d2d; }
+
+.history-back {
+  background: none;
+  border: none;
+  color: #a07060;
+  font-family: 'Georgia', serif;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s;
+}
+
+.history-back:hover { color: #c97d5b; }
+
+.history-chat-title {
+  font-size: 20px;
+  color: #3d2b1f;
+  font-weight: normal;
+  margin: 0 0 4px;
+}
+
+.history-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 1.5rem;
+}
+
+.hm-msg {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  max-width: 78%;
+}
+
+.hm-msg--user {
+  flex-direction: row-reverse;
+  align-self: flex-end;
+}
+
+.hm-msg--bot {
+  align-self: flex-start;
+}
+
+.hm-avatar {
+  width: 28px;
+  height: 28px;
+  background: #c97d5b;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Georgia', serif;
+  font-size: 13px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.hm-bubble {
+  padding: 9px 13px;
+  border-radius: 14px;
+  font-family: 'Georgia', serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #3d2b1f;
+  background: #f3e8dd;
+  border-bottom-left-radius: 4px;
+}
+
+.hm-msg--user .hm-bubble {
+  background: #c97d5b;
+  color: #fff;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 4px;
+}
+
+.history-item-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.history-count {
+  font-size: 12px;
+  color: #b0907a;
+  margin: 3px 0 0;
+}
+
+.history-arrow {
+  font-size: 18px;
+  color: #c97d5b;
+  margin-left: 1rem;
+  flex-shrink: 0;
+}
+
+.history-empty {
+  text-align: center;
+  padding: 3rem 0;
+  color: #a07060;
+}
+
+.history-empty span {
+  font-size: 44px;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.history-empty p {
+  font-family: 'Georgia', serif;
+  font-size: 15px;
+  margin: 0 0 1.25rem;
+}
+
+.history-cta {
+  background: #c97d5b;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-family: 'Georgia', serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.history-cta:hover { background: #b86e4d; }
