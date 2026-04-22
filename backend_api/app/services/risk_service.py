@@ -1,9 +1,9 @@
 import json
 import numpy as np
 import os
-from app.core.math_models import RegresionLogisticaManual
-from app.core.preprocessing import PreprocesadorManual
-from app.services.motor_reglas import motor_reglas  # Importamos tu motor de 20 reglas
+from app.core.math_models import RegresionLogistica
+from app.core.preprocessing import Preprocesador
+from app.services.motor_reglas import MotorReglasClinicas  
 from app.core.config import settings
 
 class RiskService:
@@ -14,7 +14,8 @@ class RiskService:
 
     def __init__(self):
         self.modelo = None
-        self.preprocesador = PreprocesadorManual()
+        self.preprocesador = Preprocesador()
+        self.motor_reglas = MotorReglasClinicas()
         self.feature_order = []
         self._cargar_configuracion()
 
@@ -33,7 +34,7 @@ class RiskService:
         self.preprocesador.load_params(config["scaler_params"])
         model_params = config["model_params"]
         
-        self.modelo = RegresionLogisticaManual(
+        self.modelo = RegresionLogistica(
             len(model_params["W"]), 
             len(model_params["W"][0])
         )
@@ -45,7 +46,7 @@ class RiskService:
         Realiza la evaluacion dual: Estadistica y Normativa.
         """
         # 1. EVALUACION NORMATIVA (Motor de Reglas - Seguridad primero)
-        alerta_reglas, recomendacion_reglas = motor_reglas.evaluar_estado(datos_madre_dict)
+        alerta_reglas, recomendacion_reglas = self.motor_reglas.evaluar_estado(datos_madre_dict)
 
         # 2. EVALUACION ESTADISTICA (Regresion Logistica)
         try:
