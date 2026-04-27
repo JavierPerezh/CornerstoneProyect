@@ -1,54 +1,32 @@
-import os
-from pathlib import Path
-from dotenv import load_dotenv
+"""Configuración central de la aplicación."""
 
-# Localizar la raiz del proyecto (backend_api/)
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+from functools import lru_cache
 
-# Cargar variables desde el archivo .env
-load_dotenv(os.path.join(BASE_DIR, ".env"))
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
-class Settings:
-    """
-    Configuracion centralizada de la aplicacion.
-    Carga variables de entorno y define rutas estaticas del sistema.
-    """
-    PROJECT_NAME: str = "Cornerstone Proyecto - MACC"
-    VERSION: str = "1.0.0"
-    
-    # Configuracion de API Externa
-    GROQ_API_KEY: str = os.getenv("GROQ_API_KEY")
-    
-    # Rutas del Sistema de Archivos
-    APP_DIR: Path = BASE_DIR / "app"
-    MODELS_DIR: Path = APP_DIR / "models" / "weights"
-    TRAINING_DIR: Path = APP_DIR / "training"
-    
-    # Nombre del archivo de parametros entrenados
-    MODEL_PARAMS_FILE: str = "parametros_finales.json"
-    
-    # Hiperparametros por defecto para el modelo matematico
-    DEFAULT_LEARNING_RATE: float = 0.1
-    DEFAULT_EPOCHS: int = 1500
 
-    @property
-    def model_path(self) -> Path:
-        """Retorna la ruta absoluta al archivo de pesos del modelo."""
-        return self.MODELS_DIR / self.MODEL_PARAMS_FILE
+class Settings(BaseSettings):
+    """Variables de entorno del proyecto."""
 
-    def validate_config(self):
-        """Verifica que las credenciales criticas esten presentes."""
-        if not self.GROQ_API_KEY:
-            raise ValueError("Error: GROQ_API_KEY no encontrada en el entorno.")
-        print(f"Configuracion cargada exitosamente para: {self.PROJECT_NAME}")
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+        case_sensitive=False,
+    )
 
-# Instancia unica para ser importada en el resto del sistema
-settings = Settings()
+    DATABASE_URL: str
+    GROQ_API_KEY: str
+    OPENAI_API_KEY: str
+    DEVICE_API_KEY_SECRET: str
+    JWT_SECRET: str
+    JWT_EXPIRE_DAYS: int = 30
+    ENVIRONMENT: str = "development"
+    STATIC_AUDIO_DIR: str = "static/audio"
 
-if __name__ == "__main__":
-    # Prueba rapida de carga
-    try:
-        settings.validate_config()
-        print(f"Ruta del modelo: {settings.model_path}")
-    except Exception as e:
-        print(e)
+
+@lru_cache(maxsize=1)
+def get_settings() -> Settings:
+    """Devuelve una instancia cacheada de configuración."""
+
+    return Settings()
