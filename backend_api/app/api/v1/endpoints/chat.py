@@ -138,7 +138,7 @@ async def _run_chat_flow(
         interaccion = await database_service.guardar_interaccion(
             conn=conn,
             usuario_uuid=usuario_uuid,
-            origen="chat",
+            origen="texto",
             texto_usuario=payload.mensaje,
             texto_respuesta=respuesta_texto,
             datos_extraidos=datos_extraidos,

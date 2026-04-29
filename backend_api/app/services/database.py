@@ -96,7 +96,7 @@ async def guardar_interaccion(
             requiere_accion_inmediata,
             feedback_util
         ) VALUES (
-            $1, $2, $3, $4, $5, $6::jsonb, $7, $8, $9, $10, $11, $12, $13::jsonb, $14, NULL
+            $1, $2, $3, $4, $5, $6::jsonb, $7, $8, $9, $10, $11, $12, $13, $14, NULL
         )
         RETURNING id, usuario_uuid, fecha, origen, texto_usuario, texto_respuesta,
                   variables_extraidas, sintomas_madre, sintomas_bebe, nivel_alerta,
@@ -118,7 +118,7 @@ async def guardar_interaccion(
         float(puntuacion_riesgo) if isinstance(puntuacion_riesgo, (int, float)) else None,
         recomendaciones,
         fuente,
-        json.dumps(reglas_activadas, ensure_ascii=False),
+        reglas_activadas if isinstance(reglas_activadas, list) else [],
         requiere_accion_inmediata,
     )
 

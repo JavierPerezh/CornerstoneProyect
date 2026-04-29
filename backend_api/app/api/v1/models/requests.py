@@ -1,18 +1,33 @@
 """Modelos Pydantic v2 de entrada."""
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, EmailStr
+from datetime import date
+from typing import Optional
 
 
 class AuthRegisterRequest(BaseModel):
-    """Solicitud para registrar un código de acceso."""
+    """Solicitud para registrar un nuevo usuario."""
 
     model_config = ConfigDict(str_strip_whitespace=True)
 
-    codigo_registro: str = Field(
+    email: EmailStr = Field(description="Email del usuario.")
+    password: str = Field(
         min_length=6,
-        max_length=6,
-        description="Código de registro de 6 caracteres entregado al usuario.",
+        description="Contraseña del usuario (mínimo 6 caracteres).",
     )
+    nombre: str = Field(
+        min_length=1,
+        max_length=255,
+        description="Nombre completo del usuario.",
+    )
+    baby_birthdate: date = Field(
+        description="Fecha de nacimiento del bebé (YYYY-MM-DD).",
+    )
+
+
+class AuthLoginRequest(BaseModel):
+    email: EmailStr
+    password: str
 
 
 class AuthTokenRequest(BaseModel):

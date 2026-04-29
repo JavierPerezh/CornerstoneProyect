@@ -31,7 +31,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-allowed_origins = ["http://localhost:3000"]
+
 allow_credentials = True
 if settings.ENVIRONMENT.lower() in {"dev", "development", "local"}:
     allowed_origins = ["*"]
@@ -39,7 +39,7 @@ if settings.ENVIRONMENT.lower() in {"dev", "development", "local"}:
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins,
+    allow_origins=["*"],
     allow_credentials=allow_credentials,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -47,6 +47,9 @@ app.add_middleware(
 
 app.include_router(api_v1_router, prefix="/api/v1")
 
+@app.get("/")
+async def root():
+    return {"message": "API de NeoCare funcionando. Ve a /docs para la documentación."}
 
 @app.get("/health", response_model=HealthResponse, tags=["health"])
 async def health_check(request: Request) -> HealthResponse:

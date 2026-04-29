@@ -8,11 +8,15 @@ import logging
 
 import asyncpg
 from fastapi import FastAPI, HTTPException, Request, status
+from sqlalchemy.orm import declarative_base
 
 from app.core.config import get_settings
 
 
 logger = logging.getLogger(__name__)
+
+# SQLAlchemy ORM Base class para modelos
+Base = declarative_base()
 
 
 def _to_serializable(value: object) -> object:

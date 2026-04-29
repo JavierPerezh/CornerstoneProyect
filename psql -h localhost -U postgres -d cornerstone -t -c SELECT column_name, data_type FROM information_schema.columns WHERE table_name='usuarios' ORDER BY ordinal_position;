@@ -1,0 +1,21 @@
+                                    Table "public.usuarios"
+        Column        |            Type             | Collation | Nullable |      Default      
+----------------------+-----------------------------+-----------+----------+-------------------
+ uuid                 | uuid                        |           | not null | gen_random_uuid()
+ dispositivo_id       | character varying(50)       |           |          | 
+ codigo_registro      | character varying(6)        |           |          | 
+ email                | character varying(255)      |           | not null | 
+ password             | character varying(255)      |           | not null | 
+ nombre               | character varying(255)      |           | not null | 
+ baby_birthdate       | date                        |           |          | 
+ fecha_registro       | timestamp without time zone |           |          | now()
+ fecha_consentimiento | timestamp without time zone |           |          | 
+ anonimizado          | boolean                     |           |          | false
+ fecha_anonimizacion  | timestamp without time zone |           |          | 
+Indexes:
+    "usuarios_pkey" PRIMARY KEY, btree (uuid)
+    "usuarios_dispositivo_id_key" UNIQUE CONSTRAINT, btree (dispositivo_id)
+    "usuarios_email_key" UNIQUE CONSTRAINT, btree (email)
+Referenced by:
+    TABLE "interacciones" CONSTRAINT "interacciones_usuario_uuid_fkey" FOREIGN KEY (usuario_uuid) REFERENCES usuarios(uuid) ON DELETE CASCADE
+

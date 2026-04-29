@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import Sidebar from '../components/Sidebar'
 import { useAuth } from '../context/AuthContext'
+import { apiService } from '../api'
 import './Dashboard.css'
 
 const TIPS = [
@@ -10,8 +12,25 @@ const TIPS = [
 ]
 
 export default function Dashboard() {
-  const { user, chatCount, weeksPostpartum } = useAuth()
+  const { nombre, weeksPostpartum, token, usuarioUuid } = useAuth()
+  const [progreso, setProgreso] = useState(null)
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const fetchProgreso = async () => {
+      if (token && usuarioUuid) {
+        try {
+          const data = await apiService.getProgresoResumen(usuarioUuid, token, 'semana')
+          setProgreso(data)
+        } catch (err) {
+          console.error('Error fetching progreso:', err)
+        }
+      }
+      setLoading(false)
+    }
+    fetchProgreso()
+  }, [token, usuarioUuid])
 
   const STATS = [
     {
@@ -19,10 +38,17 @@ export default function Dashboard() {
       value: weeksPostpartum !== null ? String(weeksPostpartum) : '—',
       unit: weeksPostpartum !== null ? 'sem' : '',
     },
-    { label: 'Conversaciones', value: String(chatCount()), unit: 'total' },
-    { label: 'Nivel de riesgo',  value: 'Verde', unit: '' },
-    { label: 'Última sesión',    value: 'Hoy',   unit: '' },
+    { label: 'Conversaciones', value: String(progreso?.total_interacciones || 0), unit: 'total' },
+    { label: 'Nivel de riesgo', value: determineRiskLevel(progreso?.riesgo_promedio), unit: '' },
+    { label: 'Alertas rojas', value: String(progreso?.alertas?.rojo || 0), unit: 'critico' },
   ]
+
+  function determineRiskLevel(averageRisk) {
+    if (!averageRisk) return 'Verde'
+    if (averageRisk < 0.33) return 'Verde'
+    if (averageRisk < 0.66) return 'Amarillo'
+    return 'Rojo'
+  }
 
   return (
     <div className="dashboard-layout">
@@ -30,7 +56,7 @@ export default function Dashboard() {
       <main className="dashboard-main">
         <header className="dash-header">
           <div>
-            <h1>Hola, {user?.name}</h1>
+            <h1>Hola, {nombre}</h1>
             <p className="dash-sub">¿Cómo te sientes hoy?</p>
           </div>
         </header>
@@ -55,6 +81,32 @@ export default function Dashboard() {
             </div>
           ))}
         </section>
+
+        {progreso && (
+          <section className="symptoms-section">
+            <h2>Síntomas frecuentes (esta semana)</h2>
+            {progreso.sintomas_madre_frecuentes && progreso.sintomas_madre_frecuentes.length > 0 && (
+              <div className="symptoms-list">
+                <h3>Madre:</h3>
+                <ul>
+                  {progreso.sintomas_madre_frecuentes.slice(0, 3).map((s, i) => (
+                    <li key={i}>{s.sintoma} ({s.frecuencia}x)</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {progreso.sintomas_bebe_frecuentes && progreso.sintomas_bebe_frecuentes.length > 0 && (
+              <div className="symptoms-list">
+                <h3>Bebé:</h3>
+                <ul>
+                  {progreso.sintomas_bebe_frecuentes.slice(0, 3).map((s, i) => (
+                    <li key={i}>{s.sintoma} ({s.frecuencia}x)</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </section>
+        )}
 
         <section className="tips-section">
           <h2>Consejos del día</h2>

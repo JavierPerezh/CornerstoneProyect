@@ -10,7 +10,7 @@ const NAV = [
 ]
 
 export default function Sidebar() {
-  const { user, logout } = useAuth()
+  const { nombre, logout } = useAuth()
   const navigate = useNavigate()
 
   const handleLogout = () => {
@@ -44,9 +44,9 @@ export default function Sidebar() {
       <div className="sidebar-footer">
         <div className="user-chip">
           <div className="user-avatar">
-            {user?.name?.charAt(0).toUpperCase()}
+            {nombre?.charAt(0).toUpperCase()}
           </div>
-          <span className="user-name">{user?.name}</span>
+          <span className="user-name">{nombre}</span>
         </div>
         <button className="logout-btn" onClick={handleLogout}>
           Cerrar sesión

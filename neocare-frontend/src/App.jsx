@@ -7,8 +7,13 @@ import Profile from './pages/Profile'
 import { AuthProvider, useAuth } from './context/AuthContext'
 
 function ProtectedRoute({ children }) {
-  const { user } = useAuth()
-  return user ? children : <Navigate to="/login" replace />
+  const { isAuthenticated, loading } = useAuth()
+  
+  if (loading) {
+    return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>Cargando...</div>
+  }
+  
+  return isAuthenticated ? children : <Navigate to="/login" replace />
 }
 
 export default function App() {

@@ -7,7 +7,6 @@ from pathlib import Path
 from time import perf_counter
 from uuid import uuid4
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -15,7 +14,7 @@ def _transcribe_with_whisper(audio_path: str) -> str:
 	"""Ejecuta la transcripción en un hilo para no bloquear el event loop."""
 
 	try:
-		from whisper_ctranslate2 import WhisperModel
+		from faster_whisper import WhisperModel
 	except Exception as exc:
 		logging.error("No se pudo importar whisper-ctranslate2: %s", exc, exc_info=True)
 		raise RuntimeError("Error al inicializar whisper-ctranslate2") from exc

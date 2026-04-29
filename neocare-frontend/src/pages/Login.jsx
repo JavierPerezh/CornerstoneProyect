@@ -25,22 +25,22 @@ export default function Login() {
   const { login, signup } = useAuth()
   const navigate = useNavigate()
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
     setError('')
-    const ok = login(loginEmail, loginPassword)
+    const ok = await login(loginEmail, loginPassword)
     if (ok) navigate('/')
     else setError('Correo o contraseña incorrectos')
   }
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault()
     setError('')
     if (!babyBirthdate) {
       setError('Por favor ingresa la fecha de nacimiento de tu bebe')
       return
     }
-    const ok = signup(signupName, signupEmail, signupPassword, babyBirthdate)
+    const ok = await signup(signupName, signupEmail, signupPassword, babyBirthdate)
     if (ok) navigate('/')
     else setError('Completa todos los campos para continuar')
   }
