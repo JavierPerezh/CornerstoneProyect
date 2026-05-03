@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "VoiceAI",
+    "slug": "voiceai-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "voiceai-app",
+    "plugins": [
+      "expo-router",
+      [
+        "expo-av",
+        {
+          "microphonePermission": "VoiceAI necesita acceso al micrófono para grabar tus mensajes de voz."
+        }
+      ],
+      "expo-secure-store"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.tuempresa.voiceai",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "VoiceAI necesita acceso al micrófono para grabar tus mensajes de voz."
+      }
+    },
+    "android": {
+      "package": "com.tuempresa.voiceai",
+      "permissions": [
+        "RECORD_AUDIO",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "5012abda-f884-41a4-8c1a-ac1dad2e6ad3"
+      }
+    }
+  }
+}
