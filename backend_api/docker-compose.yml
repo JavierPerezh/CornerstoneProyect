@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: posparto_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    build: ./backend_api
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/posparto_db
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      DEVICE_API_KEY_SECRET: ${DEVICE_API_KEY_SECRET:-secreto_local}
+      JWT_SECRET: ${JWT_SECRET:-jwt_secreto_local}
+      JWT_EXPIRE_DAYS: ${JWT_EXPIRE_DAYS:-30}
+      ENVIRONMENT: development
+      STATIC_AUDIO_DIR: /app/static/audio
+    volumes:
+      - ./backend_api/static:/app/static
+volumes:
+  postgres_data:

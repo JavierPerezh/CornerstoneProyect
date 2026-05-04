@@ -4,6 +4,13 @@ import asyncio
 import edge_tts
 from datetime import datetime
 from app.core.config import settings
+import nest_asyncio
+
+# Permitir event loops anidados (necesario para Jupyter)
+try:
+    nest_asyncio.apply()
+except RuntimeError:
+    pass  # Ya fue aplicado
 
 class TTSService:
     """
@@ -41,7 +48,14 @@ class TTSService:
         Wrapper síncrono para mantener compatibilidad con tus tests actuales.
         """
         try:
-            return asyncio.run(self.generar_audio_async(texto))
+            # Obtener el event loop actual o crear uno
+            try:
+                loop = asyncio.get_running_loop()
+                # Si hay un loop ejecutándose, usar nest_asyncio
+                return asyncio.run(self.generar_audio_async(texto))
+            except RuntimeError:
+                # No hay loop en ejecución, crear uno normal
+                return asyncio.run(self.generar_audio_async(texto))
         except Exception as e:
             print(f"Error al ejecutar TTS síncrono: {e}")
             return None
